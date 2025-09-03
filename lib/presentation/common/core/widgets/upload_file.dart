@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:soryu/l10n/app_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -64,22 +64,30 @@ class UploadFileWidget extends HookConsumerWidget {
           if (pickedImage != null) {
             CroppedFile? croppedFile = await ImageCropper().cropImage(
               sourcePath: pickedImage.path,
-              aspectRatioPresets: [
-                CropAspectRatioPreset.square,
-                CropAspectRatioPreset.ratio3x2,
-                CropAspectRatioPreset.original,
-                CropAspectRatioPreset.ratio4x3,
-                CropAspectRatioPreset.ratio16x9
-              ],
               uiSettings: [
                 AndroidUiSettings(
-                    toolbarTitle: 'Cropper',
-                    toolbarColor: ColorUtils.main,
-                    toolbarWidgetColor: Colors.white,
-                    initAspectRatio: CropAspectRatioPreset.square,
-                    lockAspectRatio: false),
+                  toolbarTitle: 'Cropper',
+                  toolbarColor: ColorUtils.main,
+                  toolbarWidgetColor: Colors.white,
+                  initAspectRatio: CropAspectRatioPreset.square,
+                  lockAspectRatio: false,
+                  aspectRatioPresets: [
+                    CropAspectRatioPreset.square,
+                    CropAspectRatioPreset.ratio3x2,
+                    CropAspectRatioPreset.original,
+                    CropAspectRatioPreset.ratio4x3,
+                    CropAspectRatioPreset.ratio16x9
+                  ],
+                ),
                 IOSUiSettings(
                   title: 'Cropper',
+                  aspectRatioPresets: [
+                    CropAspectRatioPreset.square,
+                    CropAspectRatioPreset.ratio3x2,
+                    CropAspectRatioPreset.original,
+                    CropAspectRatioPreset.ratio4x3,
+                    CropAspectRatioPreset.ratio16x9
+                  ],
                 ),
               ],
             );

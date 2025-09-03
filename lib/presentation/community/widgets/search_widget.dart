@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:soryu/l10n/app_localizations.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -19,35 +19,49 @@ class SearchWidget extends HookConsumerWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return AppBar(
-      backgroundColor: ColorUtils.white,
-      title: TypeAheadField<User>(
-        textFieldConfiguration: TextFieldConfiguration(
-          controller: searchController,
-          decoration: InputDecoration(
-            hintText: '${AppLocalizations.of(context)!.search}...',
-            border: InputBorder.none,
-            suffixIconColor: ColorUtils.main,
-            suffixIcon: const Icon(Icons.search),
-          ),
+    return Column(
+      children: [
+        AppBar(
+          backgroundColor: ColorUtils.white,
+          title: Text(AppLocalizations.of(context)!.search),
         ),
-        suggestionsCallback: (String query) async {
-          if (query.isNotEmpty) {
-            return await onSearchChanged(query);
-          }
-          return [];
-        },
-        itemBuilder: (BuildContext context, User suggestion) {
-          return ListTile(
-              title: Text(
-            UserUtils.getNameOrUsername(suggestion),
-          ));
-        },
-        onSuggestionSelected: (User suggestion) =>
-            UserUtils.goToProfile(suggestion),
-        noItemsFoundBuilder: (context) =>
-            Text(AppLocalizations.of(context)!.no_data),
-      ),
+        Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TypeAheadField<User>(
+              suggestionsCallback: (String query) async {
+                if (query.isNotEmpty) {
+                  return await onSearchChanged(query);
+                }
+                return [];
+              },
+              itemBuilder: (BuildContext context, User suggestion) {
+                return ListTile(
+                  title: Text(UserUtils.getNameOrUsername(suggestion)),
+                );
+              },
+              onSelected: (User suggestion) {
+                UserUtils.goToProfile(suggestion);
+              },
+              emptyBuilder: (BuildContext context) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(AppLocalizations.of(context)!.no_data),
+                );
+              },
+              builder: (context, controller, focusNode) {
+                return TextField(
+                  controller: controller,
+                  focusNode: focusNode,
+                  decoration: InputDecoration(
+                    hintText: '${AppLocalizations.of(context)!.search}...',
+                    border: OutlineInputBorder(),
+                    suffixIconColor: ColorUtils.main,
+                    suffixIcon: const Icon(Icons.search),
+                  ),
+                );
+              },
+            )),
+      ],
     );
   }
 
