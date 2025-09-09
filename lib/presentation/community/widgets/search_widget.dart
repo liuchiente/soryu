@@ -54,7 +54,7 @@ class SearchWidget extends HookConsumerWidget implements PreferredSizeWidget {
                   focusNode: focusNode,
                   decoration: InputDecoration(
                     hintText: '${AppLocalizations.of(context)!.search}...',
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                     suffixIconColor: ColorUtils.main,
                     suffixIcon: const Icon(Icons.search),
                   ),

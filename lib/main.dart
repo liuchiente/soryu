@@ -120,7 +120,8 @@ class MyApp extends HookConsumerWidget {
         } else if (snapshot.hasData && snapshot.data != null) {
           return buildMaterialApp(const HomeScreen());
         } else {
-          return buildMaterialApp(LoginScreen());
+          return buildMaterialApp(const HomeScreen());
+          //return buildMaterialApp(LoginScreen());
         }
       },
     );
